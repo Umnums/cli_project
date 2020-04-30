@@ -38,6 +38,8 @@ def Game
       name = game.css("h1").text
       new_game = Game.new(name, city) unless name.include?("Ultimate Frisbee Games in ")
       new_game.contact = game.css(name)
+    end
+  end
 
 
 end
