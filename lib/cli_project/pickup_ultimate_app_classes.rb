@@ -22,7 +22,7 @@ class City
 
 end
 
-def Game
+class Game
   attr_accessor :name, :contact, :city, :description
   @@all = []
 
@@ -30,19 +30,35 @@ def Game
     @name = name
     @contact = contact
     @city = city.name
-    @@all < self
+    @@all << self
   end
 
   def self.add_from_Nokoguri(obj, city)
+    scraper = Scraper.new
+    names = []
+    obj = scraper.scrape_city("https://pickupultimate.com/map/city/annarbor")
     obj.each do |game|
       name = game.css("h1").text
       new_game = Game.new(name, city) unless name.include?("Ultimate Frisbee Games in ")
-      new_game.contact = game.css(name)
+      names << name
     end
+    counter = 0
+    while counter < names.length
+      contact = obj.text.split("Contact: ")[1].split(/\s/)
+      # puts "#{Game.all[counter].name}"
+      # puts "#{names[counter]}"
+      puts "#{names}"
+      # puts "#{Game.all.select{|x| x.name == names[counter]}}"
+      counter += 1
+    end
+  end
+
+  def self.all
+    @@all
   end
 
 
 end
-
-City.add_from_Nokoguri("")
-print City.all
+annarbor = City.new("Ann Arbor")
+Game.add_from_Nokoguri("",annarbor)
+# print Game.all

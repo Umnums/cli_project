@@ -12,14 +12,14 @@ class Scraper
     cities = []
     list = doc.css(".col-wrapper-357f4 li a")
     list.each{|x| cities << x.text}
-    print cities
+    # print cities
     return cities
   end
 
   def scrape_city(city_url)
     doc = self.get_page(city_url)
     games = doc.css(".content_box")
-    print games
+    games
   end
 
   def initialize
@@ -29,6 +29,6 @@ class Scraper
 
 end
 
-city_url = "https://pickupultimate.com/map/city/annarbor"
-scraper = Scraper.new
-scraper.scrape_index
+# city_url = "https://pickupultimate.com/map/city/annarbor"
+# scraper = Scraper.new
+# scraper.scrape_index
