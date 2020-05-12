@@ -3,6 +3,11 @@ require 'pry'
 require 'nokogiri'
 
 class Scraper
+
+  def initialize
+    @index_url = "https://pickupultimate.com/cities"
+  end
+
   def get_page(url)
     Nokogiri::HTML(open(url))
   end
@@ -12,7 +17,6 @@ class Scraper
     cities = []
     list = doc.css(".col-wrapper-357f4 li a")
     list.each{|x| cities << x.text}
-    # print cities[45]
     return cities
   end
 
@@ -21,11 +25,6 @@ class Scraper
     games = doc.css(".content_box")
     games
   end
-
-  def initialize
-    @index_url = "https://pickupultimate.com/cities"
-  end
-
 
 end
 

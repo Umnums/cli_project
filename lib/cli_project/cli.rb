@@ -33,9 +33,9 @@ class CLI
     puts "What city would you like more information on? (put number in)"
 
     index = gets.strip.to_i
-    city = City.all[index-1]
 #handle it differently for domestic vs international
     if input == "domestic"
+      city = City.all[index-1]
       #adds games to the city if it has never been done before
       if city.games.size == 0
       #there need to be special cases written to determine url for Washington D.C.
@@ -44,20 +44,52 @@ class CLI
         else
           url_end = city.name.split(", ")[0].downcase.gsub(/\s/, "")
         end
-        # puts "#{@city_url + url_end}"
         Game.add_from_Nokoguri(@scraper.scrape_city(@city_url+url_end), city)
-        # puts "#{city.games}"
-        # puts "#{Game.all}"
-        # print self.class
         self.print_games(city)
         #prints existing games if it has already been created
       else
         self.print_games(city)
       end
+      #add/print games for international cities
     else
+      city = City.all[index+@domestic_index-1]
+      #check to see if games already exit for chosen city
+      if city.games.size == 0
+        #URL exceptions for oddly named pages for cities
+        if index == 8
+          url_end = "hongkong"
+        elsif index == 22
+          url_end = "singapore"
+        elsif index == 24
+          url_end = "hague"
+        else
+          url_end = city.name.split(", ")[0].downcase.gsub(/\s/, "")
+        end
+        Game.add_from_Nokoguri(@scraper.scrape_city(@city_url+url_end), city)
+        self.print_games(city)
+        #prints existing games if it has already been created
+      else
+        self.print_games(city)
+      end
     end
+#make it so user can see more cities, and exit if done
+    puts ""
+    puts "Would you like to see another city?"
 
-    #  print Game.all
+    flag = nil
+    while flag != true
+    input = gets.strip.downcase
+      if input[0] == "y"
+        flag = true
+        self.start
+      elsif input[0] == "n"
+        flag = true
+        puts "Hope you found a good game!"
+        exit
+      else
+        puts "Not a valid response."
+      end
+    end
 
   end
 
@@ -95,16 +127,3 @@ class CLI
   end
 
 end
-
-CLI.new.call
-# print City.all[45].name.split(", ")[0].downcase.strip
-# print City.all[44].name
-
-# elsif input == "international"
-#   if city == 8
-#     url_end = "hongkong"
-#   elsif city == 22
-#     url_end = "singapore"
-#   elsif city == 24
-#     url_end = "hague"
-#   end
