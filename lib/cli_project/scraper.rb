@@ -12,7 +12,7 @@ class Scraper
     cities = []
     list = doc.css(".col-wrapper-357f4 li a")
     list.each{|x| cities << x.text}
-    # print cities
+    # print cities[45]
     return cities
   end
 
