@@ -1,7 +1,7 @@
-require 'open-uri'
-require 'pry'
-require 'nokogiri'
-require_relative "./pickup_ultimate_app_classes.rb"
+# require 'open-uri'
+# require 'pry'
+# require 'nokogiri'
+# require_relative "./pickup_ultimate_app_classes.rb"
 
 class Scraper
 
@@ -32,5 +32,5 @@ end
 
 
 # city_url = "https://pickupultimate.com/map/city/annarbor"
-scraper = Scraper.new
-scraper.scrape_index
+# scraper = Scraper.new
+# scraper.scrape_index

@@ -14,7 +14,7 @@ class City
   def self.all
     @@all
   end
-
+#refactored this out into Scraper.scrape_index
   # def self.add_from_Nokoguri(obj)
   #   # scraper = Scraper.new
   #   # obj = scraper.scrape_index

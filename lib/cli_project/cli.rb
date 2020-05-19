@@ -1,11 +1,12 @@
-require_relative "./pickup_ultimate_app_classes.rb"
-require_relative "./scraper.rb"
+# require_relative "./pickup_ultimate_app_classes.rb"
+# require_relative "./scraper.rb"
 class CLI
   attr_accessor :city_url, :scraper
   def initialize
     @scraper = Scraper.new
     @city_url = "https://pickupultimate.com/map/city/"
     @domestic_index = 45
+    @scraper.scrape_index
   end
 
   def call
@@ -27,7 +28,6 @@ class CLI
     puts ""
     return input
   end
-
   def start
 
     input = self.welcome
@@ -35,8 +35,19 @@ class CLI
 
     puts ""
     puts "What city would you like more information on? (put number in)"
-
     index = gets.strip.to_i
+
+    if input == "domestic"
+      until (index.class == Integer && index.between?(1,45))
+        puts "Please enter a number from the list."
+        index = gets.strip.to_i
+      end
+    else
+      until (index.class == Integer && index.between?(1,26))
+        puts "Please enter a number from the list."
+        index = gets.strip.to_i
+      end
+    end
 
     print_game_information(index,input)
 
@@ -88,6 +99,8 @@ class CLI
   #handle it differently for domestic vs international
     if input == "domestic"
       city = City.all[index-1]
+      puts ""
+      puts "Here are the games in #{city.name}:"
       #adds games to the city if it has never been done before
       if city.scraped == false
       #there need to be special cases written to determine url for Washington D.C.
@@ -102,6 +115,8 @@ class CLI
       #add/print games for international cities
     else
       city = City.all[index+@domestic_index-1]
+      puts ""
+      puts "Here are the games in #{city.name}:"
       #check to see if games already exit for chosen city
       if city.scraped == false
         #URL exceptions for oddly named pages for cities
