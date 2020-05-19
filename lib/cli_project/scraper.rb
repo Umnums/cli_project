@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'pry'
 require 'nokogiri'
+require_relative "./pickup_ultimate_app_classes.rb"
 
 class Scraper
 
@@ -14,10 +15,11 @@ class Scraper
 
   def scrape_index
     doc = self.get_page(@index_url)
-    cities = []
     list = doc.css(".col-wrapper-357f4 li a")
-    list.each{|x| cities << x.text}
-    return cities
+    list.each do |x|
+      city = City.new(x.text)
+      city.url = x.attr("href")
+    end
   end
 
   def scrape_city(city_url)
@@ -28,6 +30,7 @@ class Scraper
 
 end
 
+
 # city_url = "https://pickupultimate.com/map/city/annarbor"
-# scraper = Scraper.new
-# scraper.scrape_index
+scraper = Scraper.new
+scraper.scrape_index

@@ -1,24 +1,25 @@
 require_relative "./scraper.rb"
 
 class City
-  attr_accessor :games, :name
+  attr_accessor :games, :name, :url, :scraped
   @@all = []
 
   def initialize(name)
     @name = name
     @@all << self
     @games = []
+    @scraped = false
   end
 
   def self.all
     @@all
   end
 
-  def self.add_from_Nokoguri(obj)
-    # scraper = Scraper.new
-    # obj = scraper.scrape_index
-    obj.each{|x| City.new(x)}
-  end
+  # def self.add_from_Nokoguri(obj)
+  #   # scraper = Scraper.new
+  #   # obj = scraper.scrape_index
+  #   obj.each{|x| City.new(x)}
+  # end
 
 end
 
